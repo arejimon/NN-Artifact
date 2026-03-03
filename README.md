@@ -31,10 +31,10 @@ Hybrid artifact detection for MR spectroscopy data. Combines two expert neural n
 
 ```bash
 # CPU version
-docker build -t nn-artifact .
+docker build -f docker/Dockerfile -t nn-artifact .
 
 # GPU version (requires nvidia-docker)
-docker build -f Dockerfile.gpu -t nn-artifact-gpu .
+docker build -f docker/Dockerfile.gpu -t nn-artifact-gpu .
 ```
 
 ### Run inference
@@ -92,7 +92,7 @@ After running inference, use `create_chonaanorm.py` to produce NAWM-normalized C
 with artifacts removed:
 
 ```bash
-python create_chonaanorm.py --subject-dir /path/to/subject --study-date 01.31.2018
+python scripts/create_chonaanorm.py --subject-dir /path/to/subject --study-date 01.31.2018
 ```
 
 ### How it works
@@ -155,5 +155,5 @@ services:
 Then run:
 
 ```bash
-docker compose up
+docker compose -f docker/docker-compose.yml up
 ```

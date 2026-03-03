@@ -7,7 +7,7 @@ Models are loaded once per worker process (not once per study), so the
 overhead of loading large model files is amortised across many studies.
 
 Usage:
-    python batch_inference.py --project-xml /path/to/project.xml --mc-passes 5
+    python scripts/batch_inference.py --project-xml /path/to/project.xml --mc-passes 5
 """
 
 import argparse
@@ -21,10 +21,11 @@ from datetime import datetime
 from pathlib import Path
 
 # Add src/ to path so artifactremoval package is importable without installation
-sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
+REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "src"))
 
-# Resolve model paths relative to this script
-SCRIPT_DIR = Path(__file__).resolve().parent
+# Resolve model paths relative to repo root
+SCRIPT_DIR = REPO_ROOT
 TUMOR_CNN_MODEL_PATH = SCRIPT_DIR / "models" / "RTNNARTIFACT_best.keras"
 NORMAL_BRAIN_MODEL_PATH = SCRIPT_DIR / "models" / "NNArtifact_tf2"
 

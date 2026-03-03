@@ -1,6 +1,8 @@
 services:
   nn-artifact:
-    build: .
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
     volumes:
       - /path/to/subject:/data/subject
     command: ["--subject-dir", "/data/subject", "--study-date", "01.31.2018"]

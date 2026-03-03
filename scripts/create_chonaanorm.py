@@ -9,7 +9,7 @@ Requires inference.py (or batch_inference.py) to have been run first, as it
 reads the hybrid artifact probability and FLAIR segmentation outputs.
 
 Usage:
-    python create_chonaanorm.py --subject-dir /path/to/subject --study-date 01.31.2018
+    python scripts/create_chonaanorm.py --subject-dir /path/to/subject --study-date 01.31.2018
 """
 
 import argparse
@@ -22,7 +22,7 @@ import SimpleITK as sitk
 from scipy.ndimage import distance_transform_edt
 
 # Add src/ to path so artifactremoval package is importable without installation
-sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 # ── ANTs tissue label IDs ─────────────────────────────────────────────────────
 LBL_GM  = 2
