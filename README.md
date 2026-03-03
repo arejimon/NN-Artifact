@@ -13,7 +13,7 @@ Hybrid artifact detection for MR spectroscopy data. Combines two expert neural n
    - 3 voxels outside: w=0.25
    - Beyond 3 voxels: fully trust Normal-Brain CNN (w=0.0)
    - Cerebellum outside gate: always use Normal-Brain CNN
-   - Optional QMAP==4 override: force artifact probability to 0.0
+   - Optional QMAP==4 override: force artifact probability to 0.0, applied **only within the FLAIR segmentation** (not the dilated gate)
 
 ## Requirements
 
