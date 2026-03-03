@@ -171,6 +171,19 @@ def main():
     project = MidasProject(args.project_xml)
     subjects = project.all_subject()
 
+    # ── Check for lock files before starting any processing ──────────────
+    locked = [
+        s.subject_path for s in subjects
+        if (s.subject_path / "subject.xml.lock").exists()
+    ]
+    if locked:
+        logger.error(
+            f"Processing aborted — {len(locked)} subject(s) have a lock file "
+            f"(subject.xml.lock). Close the subject(s) in MIDAS and try again:\n"
+            + "\n".join(f"  {p}" for p in locked)
+        )
+        sys.exit(1)
+
     tasks = []
     for subject in subjects:
         for study in subject.all_study():
