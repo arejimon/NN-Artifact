@@ -1,6 +1,6 @@
-# CLAUDE.md
+# DEVNOTES.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Developer notes: commands, architecture overview, and codebase guidance.
 
 ## What This Project Does
 
