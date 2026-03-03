@@ -36,6 +36,13 @@ _normal_brain_model = None
 def _worker_init(tumor_path, normal_brain_path):
     """Load both models once in each worker process."""
     global _tumor_model, _normal_brain_model
+
+    # Allow TF to grow GPU memory incrementally rather than claiming all
+    # VRAM upfront — required when multiple worker processes share one GPU.
+    import tensorflow as tf
+    for gpu in tf.config.list_physical_devices("GPU"):
+        tf.config.experimental.set_memory_growth(gpu, True)
+
     from artifactremoval.model_inference import (
         load_normal_brain_cnn_model,
         load_tumor_cnn_model,
