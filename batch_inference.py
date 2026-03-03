@@ -164,18 +164,16 @@ def main():
         logger.error(f"project.xml not found: {args.project_xml}")
         sys.exit(1)
 
-    # ── Collect all (subject, study) tasks ───────────────────────────────
-    from artifactremoval.midas import MidasProject
-
-    logger.info(f"Loading project: {args.project_xml}")
-    project = MidasProject(args.project_xml)
-    subjects = project.all_subject()
-
-    # ── Check for lock files before starting any processing ──────────────
-    locked = [
-        s.subject_path for s in subjects
-        if (s.subject_path / "subject.xml.lock").exists()
+    # ── Check for lock files before loading anything ─────────────────────
+    # Parse project.xml directly (no MidasProject yet) to get subject dirs.
+    import lxml.etree as ET
+    project_root = ET.parse(str(args.project_xml)).getroot()
+    project_dir = args.project_xml.parent
+    subject_dirs = [
+        project_dir / node.xpath("./param[@name='Subject_Directory']/@value")[0]
+        for node in project_root.xpath("./Subject")
     ]
+    locked = [d for d in subject_dirs if (d / "subject.xml.lock").exists()]
     if locked:
         logger.error(
             f"Processing aborted — {len(locked)} subject(s) have a lock file "
@@ -183,6 +181,13 @@ def main():
             + "\n".join(f"  {p}" for p in locked)
         )
         sys.exit(1)
+
+    # ── Load project and collect tasks ────────────────────────────────────
+    from artifactremoval.midas import MidasProject
+
+    logger.info(f"Loading project: {args.project_xml}")
+    project = MidasProject(args.project_xml)
+    subjects = project.all_subject()
 
     tasks = []
     for subject in subjects:
