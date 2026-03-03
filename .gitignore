@@ -1,6 +1,9 @@
 # Dev notes (local only)
 DEVNOTES.md
 
+# Tests (local only)
+tests/
+
 # Model weights (too large for GitHub, share separately)
 models/
 
