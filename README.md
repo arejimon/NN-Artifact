@@ -1,18 +1,18 @@
 # NN-Artifact
 
-Hybrid artifact detection for MR spectroscopy data. Combines two expert neural networks (RTNN and Saumya) with spatial voxel-shell gating based on FLAIR hyperintensity segmentation.
+Hybrid artifact detection for MR spectroscopy data. Combines two expert neural networks (Tumor CNN and Normal-Brain CNN) with spatial voxel-shell gating based on FLAIR hyperintensity segmentation.
 
 ## How It Works
 
-1. **RTNN model** (3-channel CNN): processes raw spectra + water reference + fitted spectra → P(artifact)
-2. **Saumya model** (1-channel NN): processes raw spectra → P(artifact)
+1. **Tumor CNN** (3-channel CNN): processes raw spectra + water reference + fitted spectra → P(artifact)
+2. **Normal-Brain CNN** (1-channel NN): processes raw spectra → P(artifact)
 3. **Hybrid voxel-shell gating**: blends both predictions spatially using FLAIR segmentation:
-   - Inside FLAIR hyperintensity (dilated 2 voxels): fully trust RTNN (w=1.0)
+   - Inside FLAIR hyperintensity (dilated 2 voxels): fully trust Tumor CNN (w=1.0)
    - 1 voxel outside: w=0.75
    - 2 voxels outside: w=0.50
    - 3 voxels outside: w=0.25
-   - Beyond 3 voxels: fully trust Saumya (w=0.0)
-   - Cerebellum outside gate: always use Saumya
+   - Beyond 3 voxels: fully trust Normal-Brain CNN (w=0.0)
+   - Cerebellum outside gate: always use Normal-Brain CNN
    - Optional QMAP==4 override: force artifact probability to 0.0
 
 ## Requirements
@@ -71,9 +71,9 @@ All outputs are NIfTI files in REF (water reference) space:
 | File | Description |
 |------|-------------|
 | `{date}_hybrid_artifact_prob.nii.gz` | Final hybrid P(artifact) — **this is the primary output** |
-| `{date}_w_rtnn.nii.gz` | RTNN weight map showing the spatial gating pattern |
-| `{date}_rtnn_artifact_prob.nii.gz` | RTNN model P(artifact) alone |
-| `{date}_saumya_artifact_prob.nii.gz` | Saumya model P(artifact) alone |
+| `{date}_w_tumor.nii.gz` | Tumor CNN weight map showing the spatial gating pattern |
+| `{date}_tumor_cnn_artifact_prob.nii.gz` | Tumor CNN P(artifact) alone |
+| `{date}_normal_brain_artifact_prob.nii.gz` | Normal-Brain CNN P(artifact) alone |
 
 ## Input Folder Structure
 
