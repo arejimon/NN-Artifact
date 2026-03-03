@@ -1,0 +1,13 @@
+.git
+.claude
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.eggs
+*.ipynb
+data/
+results/
+notebooks/
+.env
+*.log

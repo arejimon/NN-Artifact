@@ -1,0 +1,13 @@
+tensorflow>=2.15,<2.17
+numpy
+scipy
+pandas
+scikit-learn
+SimpleITK
+itk
+lxml
+xarray
+scikit-image
+typing_extensions
+zarr
+dask

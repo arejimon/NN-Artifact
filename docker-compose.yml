@@ -1,0 +1,6 @@
+services:
+  nn-artifact:
+    build: .
+    volumes:
+      - /path/to/subject:/data/subject
+    command: ["--subject-dir", "/data/subject", "--study-date", "01.31.2018"]
