@@ -177,7 +177,7 @@ def main():
     if locked:
         logger.error(
             f"Processing aborted — {len(locked)} subject(s) have a lock file "
-            f"(subject.xml.lock). Close the subject(s) in MIDAS and try again:\n"
+            f"(subject.xml.lock). Please ensure subject.xml.lock is deleted before proceeding:\n"
             + "\n".join(f"  {p}" for p in locked)
         )
         sys.exit(1)
