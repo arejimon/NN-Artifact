@@ -319,6 +319,14 @@ def run_subject_study(
         sitk.WriteImage(img, str(path))
         logger.info(f"[{tag}] Saved: {path}")
 
+    # Save FLAIR segmentation registered to REF space (used by create_chonaanorm.py)
+    seg_in_ref_path = out_dir / f"{prefix}_flair_seg_in_ref.nii.gz"
+    sitk.WriteImage(
+        sitk.Cast(gating_results["seg_clean"], sitk.sitkUInt8),
+        str(seg_in_ref_path),
+    )
+    logger.info(f"[{tag}] Saved: {seg_in_ref_path}")
+
     # ── Statistics ────────────────────────────────────────────────────────
     bm_ref = sitk.Cast(brain_mask_sitk > 0, sitk.sitkUInt8)
     bm_ref = sitk.Resample(

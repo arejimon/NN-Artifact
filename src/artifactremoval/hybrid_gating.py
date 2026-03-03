@@ -371,5 +371,6 @@ def run_hybrid_gating(
         tumor_cnn_art=tumor_cnn_art,
         normal_brain_art=normal_brain_art,
         ref_sitk=ref_sitk,
+        seg_clean=seg_clean,
         n_qmap_overridden=n_changed,
     )
